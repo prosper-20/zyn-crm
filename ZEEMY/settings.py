@@ -80,6 +80,21 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:4002"
 ]
 
+CORS_ALLOW_HEADERS = [
+'accept',
+'accept-encoding',
+'authorization',
+'content-type',
+'dnt',
+'origin',
+'user-agent',
+'x-csrftoken',
+'x-requested-with',
+'cache-control',  # Add cache control header
+'pragma',         # Add pragma header
+'expires',  
+]
+
 ROOT_URLCONF = 'ZEEMY.urls'
 
 TEMPLATES = [
