@@ -38,7 +38,7 @@ from decouple import config
 def send_otp_on_login(sender, user, request, **kwargs):
     # Generate OTP
     # otp = ''.join(random.choices('0123456789', k=6))  # Generate a 6-digit OTP
-    print("userrrr", user)
+    # print("userrrr", user)
 
     otp = OTPToken.objects.create(user=user, otp_expires_at=timezone.now() + timezone.timedelta(minutes=5))
     message = f""" 

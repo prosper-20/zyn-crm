@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import CustomUser, Contact, Lead, Product
 from django.contrib.auth import authenticate
+from django.shortcuts import get_object_or_404
 
 class ContactSerializer(serializers.ModelSerializer):
     class Meta:
@@ -36,7 +37,7 @@ class CustomUserRegistrationSerializer(serializers.ModelSerializer):
 
 class LoginSerializer(serializers.Serializer):
     # email = serializers.EmailField()
-    email_or_phone_number = serializers.CharField()
+    email_or_phone_number = serializers.CharField(required=True)
     password = serializers.CharField(write_only=True)
 
     
@@ -47,12 +48,8 @@ class LoginSerializer(serializers.Serializer):
         if email and password:
             if "@" not in email:
                 phone_number = data.get("email_or_phone_number")
-                print(phone_number)
-                email = CustomUser.objects.get(phone_number=phone_number).email
-                print("ee", email)
+                email = get_object_or_404(CustomUser, phone_number=phone_number).email
                 user = authenticate(email=email, password=password)
-
-                print(user)
 
                 if user:
                     if not user.is_active:

@@ -52,50 +52,53 @@ class RegistrationAPIView(APIView):
 class LoginAPIView(APIView):
     def post(self, request, format=None):
         serializer = LoginSerializer(data=request.data, context={"request": request})
-        data = {}
         if serializer.is_valid():
             email = serializer.validated_data['email_or_phone_number']
             password = serializer.validated_data['password']
             if '@' in email:
-                user = CustomUser.objects.get(email=email)
+                user = get_object_or_404(CustomUser, email=email).email
             else:
-                user = CustomUser.objects.get(phone_number=email)
-            if user is not None:
-                refresh = RefreshToken.for_user(user)
-                access_token = AccessToken.for_user(user)
+                user = get_object_or_404(CustomUser, phone_number=email).email
+            
+            current_user = authenticate(request, username=user, password=password)
+            if current_user is not None:
+                login(request, current_user)
+                # refresh = RefreshToken.for_user(user)
+                # access_token = AccessToken.for_user(user)
 
-                # Store tokens in CustomToken model
-                custom_token, _ = CustomToken.objects.get_or_create(user=user)
-                custom_token.access_token = str(access_token)
-                custom_token.refresh_token = str(refresh)
-                custom_token.access_token_expires_at = timezone.now() + timedelta(hours=1, minutes=60)
-                custom_token.refresh_token_expires_at = timezone.now() + timedelta(hours=1, days=1)
-                custom_token.save()     
-                if user.is_superuser and user.is_staff:
-                    data["user_type"] = "Admin"  
-                elif user.is_staff and user.is_active:
-                    data["user_type"] = "Manager"
-                else:
-                    data["user_type"] = "Regular"
+                # # Store tokens in CustomToken model
+                # custom_token, _ = CustomToken.objects.get_or_create(user=user)
+                # custom_token.access_token = str(access_token)
+                # custom_token.refresh_token = str(refresh)
+                # custom_token.access_token_expires_at = timezone.now() + timedelta(hours=1, minutes=60)
+                # custom_token.refresh_token_expires_at = timezone.now() + timedelta(hours=1, days=1)
+                # custom_token.save()     
+                # if user.is_superuser and user.is_staff:
+                #     data["user_type"] = "Admin"  
+                # elif user.is_staff and user.is_active:
+                #     data["user_type"] = "Manager"
+                # else:
+                #     data["user_type"] = "Regular"
 
-                #YOU JUST ADDED THIS
-                user = authenticate(request, username=email, password=password)
-                if user is not None:
+                # #YOU JUST ADDED THIS
+                # user = authenticate(request, username=email, password=password)
+                # if user is not None:
                     # subject = 'OTP LOGIN'
                     # html_message = render_to_string('accounts/otp_email.html')
                     # plain_message = strip_tags(html_message)
                     # from_email = config('DEFAULT_FROM_EMAIL_2')  # Replace with your email
                     # to = email
                     # send_mail(subject, plain_message, from_email, [to], html_message=html_message)
-                    login(request, user)
+                    # login(request, user)
 
                 # print("user", user)
 
                 return Response({
-                    "otp_verification_link": "http:127.0.0.1:8000/accounts/verify/otp",
-                    "data": data,
-                    'access_token': str(access_token),
-                    'refresh_token': str(refresh)
+                        "Success": "User Info Accurate",
+                        "otp_verification_link": "http://127.0.0.1:8000/accounts/verify/otp",
+                        # "data": data,
+                        # 'access_token': str(access_token),
+                        # 'refresh_token': str(refresh)
                 }, status=status.HTTP_200_OK)
             else:
                 return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
@@ -236,15 +239,35 @@ class InitiatePasswordResetView(APIView):
 
 
 class VerifyOTPView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def post(self, request, format=None, **kwargs):
-        user = request.user
+        data = {}
         serializer = VerifyOTPSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         input_otp = serializer.validated_data.get("otp_token")
+        user = get_object_or_404(OTPToken, otp_code=input_otp).user
         if OTPToken.objects.filter(user=user).last().otp_code == input_otp:
-            return Response({"Success": "Verification successful"}, status=status.HTTP_200_OK)
+            refresh = RefreshToken.for_user(user)
+            access_token = AccessToken.for_user(user)
+            custom_token, _ = CustomToken.objects.get_or_create(user=user)
+            custom_token.access_token = str(access_token)
+            custom_token.refresh_token = str(refresh)
+            custom_token.access_token_expires_at = timezone.now() + timedelta(hours=1, minutes=60)
+            custom_token.refresh_token_expires_at = timezone.now() + timedelta(days=1, hours=1)
+            custom_token.save()
+            if user.is_superuser and user.is_staff:
+                    data["user_type"] = "Admin"  
+            elif user.is_staff and user.is_active:
+                    data["user_type"] = "Manager"
+            else:
+                data["user_type"] = "Regular"
+  
+            return Response({"Success": "Verification successful",
+                             "data": data,
+                            'access_token': str(access_token),
+                            'refresh_token': str(refresh)
+                             }, status=status.HTTP_200_OK)
         return Response({"Message": "Verification failed"}, status=status.HTTP_400_BAD_REQUEST)
     
 
