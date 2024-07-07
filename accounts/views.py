@@ -216,7 +216,7 @@ class InitiatePasswordResetView(APIView):
         user = get_object_or_404(CustomUser, email=email)
         uid = urlsafe_base64_encode(force_bytes(user.pk))
         token = default_token_generator.make_token(user)
-        reset_link = f"http://127.0.0.1:8000/accounts/reset-password/{uid}/{token}/"
+        reset_link = f"https://zyn-crm.onrender.com/accounts/reset-password/{uid}/{token}/"
         # subject = 'Password Reset!'
         # html_message = render_to_string('accounts/password_reset_email.html', {'uid': uid, 'token': token, 'reset_link': reset_link})
         # plain_message = strip_tags(html_message)
