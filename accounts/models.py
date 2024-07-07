@@ -11,6 +11,8 @@ import string
 from django.conf import settings
 from django.utils.text import slugify
 
+
+
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=255, unique=True)
     email = models.EmailField(_("email address"), unique=True)
@@ -320,6 +322,8 @@ class RolePrivileges(models.Model):
 
     def __str__(self):
         return self.privilege_id
+
+
 
     
 
