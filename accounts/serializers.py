@@ -3,6 +3,12 @@ from .models import CustomUser, Contact, Lead, Product
 from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404
 
+# class DashBoardSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Lead
+#         fields = '__all__'
+
+
 class ContactSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contact

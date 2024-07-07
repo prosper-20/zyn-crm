@@ -351,7 +351,22 @@ class RetrieveUserProfile(LoginRequiredMixin, APIView):
     #     new_lead.is_valid(raise_exception=True)
     #     new_lead.save()
     #     return Response({"Success": "Lead Creation Successful"}, status=status.HTTP_201_CREATED)
-    
+
+
+
+class DashboardView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        user = request.user
+        print(user)
+        total_leads_count = Lead.objects.all().count()
+        # user_leads = Lead.objects.filter(user=user).count()
+        return Response({
+            "total_leads_count": total_leads_count,
+            # "user_leads": user_leads
+        }, status=status.HTTP_200_OK)
+
 
         
 
