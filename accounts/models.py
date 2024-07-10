@@ -352,7 +352,7 @@ class City(models.Model):
         super.save(*args, **kwargs)
 
 class CustomerAccount(models.Model):
-    account_id = models.CharField(max_length=30, unique=True)
+    account_id = models.CharField(max_length=30, unique=True, blank=True, null=True)
     account_name = models.CharField(max_length=100, blank=True, null=True)
     account_category = models.CharField(choices=ACCOUNT_CATEGORY, max_length=20)
     parent_account = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
@@ -365,20 +365,35 @@ class CustomerAccount(models.Model):
     fax = models.CharField(max_length=20, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     billing_address = models.CharField(max_length=255)
-    billing_city = models.ForeignKey(City, on_delete=models.CASCADE)
+    billing_city = models.ForeignKey(City, on_delete=models.CASCADE, blank=True, null=True)
     billing_state = models.CharField(max_length=100)
     post_code = models.CharField(max_length=10)
     country = models.CharField(max_length=100)
     account_officer = models.ForeignKey(Lead, on_delete=models.CASCADE)
-    shipping_address = models.CharField(max_length=200)
-    shipping_city = models.ForeignKey(City, on_delete=models.CASCADE, related_name="user_shipping_city")
-    shipping_state = models.CharField(max_length=100)
-    post_code = models.CharField(max_length=10)
-    country = models.CharField(max_length=100)
+    shipping_address = models.CharField(max_length=200, blank=True, null=True)
+    shipping_city = models.ForeignKey(City, on_delete=models.CASCADE, related_name="user_shipping_city", blank=True, null=True)
+    shipping_state = models.CharField(max_length=100, blank=True, null=True)
+    shipping_post_code = models.CharField(max_length=10, blank=True, null=True)
+    country = models.CharField(max_length=100, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.account_name
+    
+    def save(self, *args, **kwargs):
+        if not self.account_id:
+            self.account_id = self.generate_unique_account_id()
+        super().save(*args, **kwargs)
+
+    def generate_unique_account_id(self):
+        while True:
+            # Generate a random 6-digit number
+            random_id = ''.join(random.choices(string.digits, k=6))
+            # Form the account id starting with "AC"
+            account_id = f'AC{random_id}'
+            # Check if this ID already exists
+            if not CustomerAccount.objects.filter(account_id=account_id).exists():
+                return account_id
 
 
 
