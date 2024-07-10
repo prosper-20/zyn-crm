@@ -33,6 +33,11 @@ User = get_user_model()
 class ContactAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
+    def get(self, request, format=None, **kwargs):
+        all_contacts = Contact.objects.all()
+        serializer = ContactSerializer(all_contacts, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
     def post(self, request, format=None, **kwargs):
         serializer = ContactSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
