@@ -1,10 +1,13 @@
 from django.contrib import admin
-from .models import CustomUser, CustomerAccount, Contact, Status, CustomToken, Opportunity, OTPToken
+from .models import CustomUser, CustomerAccount, Lead, AccountType, Contact, Status, CustomToken, Opportunity, OTPToken
 
 @admin.register(CustomerAccount)
 class CustomerAccountAdmin(admin.ModelAdmin):
     list_display = ["account_id", "account_name", "account_category", "phone_no"]
     list_filter = ["account_category"]
+
+
+admin.site.register([Lead, AccountType])
 
 @admin.register(Contact)
 class ContactAdmin(admin.ModelAdmin):

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CustomUser, Contact, Lead, Product, CustomerAccount
+from .models import CustomUser, Contact, Lead, Product, CustomerAccount, Opportunity
 from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404
 
@@ -13,6 +13,13 @@ class ContactSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contact
         fields = "__all__"
+
+
+class OpportunitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Opportunity
+        fields = ["opportunity_name", "account_name", "product_description", "rating", "owner"]
+        
 
 class CustomUserRegistrationSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(style={"input_type": "password"}, write_only=True)

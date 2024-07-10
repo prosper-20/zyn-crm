@@ -374,7 +374,8 @@ class CreateCustomerAccountView(APIView):
         serializer = CreateCustomerAccountSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response({"Success": "Customer Account Creation Successful"}, status=status.HTTP_201_CREATED)
+        return Response({"Success": "Customer Account Creation Successful",
+                         "data": serializer.data}, status=status.HTTP_201_CREATED)
     
 
 
