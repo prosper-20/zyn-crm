@@ -234,6 +234,7 @@ class Lead(models.Model):
     country = models.CharField(max_length=100)
     company = models.CharField(max_length=100)
     lead_rating = models.CharField(max_length=100)
+    lead_status = models.CharField(default="Active", max_length=100)
     description = models.TextField()
     lead_owner = models.CharField(max_length=100)
     company_id = models.CharField(max_length=100)

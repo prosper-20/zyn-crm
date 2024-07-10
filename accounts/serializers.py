@@ -170,7 +170,7 @@ class VerifyOTPSerializer(serializers.Serializer):
 class LeadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lead
-        fields = ['id', 'first_name', 'last_name', 'lead_source', 'job_title', 'phone', 'office_email', 'personal_email', 'address', 'city', 'state', 'zip_code', 'country', 'company', 'lead_rating', 'description', 'lead_owner', 'company_id', 'created_by', 'created_date', 'modified_by', 'modified_date']
+        fields = ['id', 'first_name', 'last_name', 'lead_source', 'job_title', 'phone', 'office_email', 'personal_email', 'address', 'company', 'lead_rating', 'city', 'state', 'zip_code', 'country', 'company', 'lead_rating', 'description', 'lead_owner', 'company_id', 'created_by', 'created_date', 'modified_by', 'modified_date']
 
 
 
