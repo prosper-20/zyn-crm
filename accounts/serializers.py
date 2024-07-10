@@ -18,7 +18,7 @@ class ContactSerializer(serializers.ModelSerializer):
 class CreateOpportunitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Opportunity
-        fields = ["opportunity_name", "account_name", "product_description", "rating", "owner"]
+        fields = ["opportunity_name", "account_name", "product_description", "amount", "rating", "owner"]
 
 
 class CustomUserRegistrationSerializer(serializers.ModelSerializer):

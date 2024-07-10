@@ -94,7 +94,7 @@ class Opportunity(models.Model):
     opportunity_name = models.CharField(max_length=100)
     account_name = models.CharField(max_length=100)
     product_description = models.TextField()
-    close_date = models.DateField()
+    close_date = models.DateField(blank=True, null=True)
     amount = models.DecimalField(max_digits=12, decimal_places=2)
     rating = models.IntegerField( validators=[
             MinValueValidator(0),
