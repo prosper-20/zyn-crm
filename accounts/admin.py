@@ -21,7 +21,7 @@ admin.site.register(OTPToken)
 
 @admin.register(Opportunity)
 class OpportunityAdmin(admin.ModelAdmin):
-    list_display = ['opportunity_name', 'account_name', 'amount', 'rating', 'close_date']
+    list_display = ['opportunity_name', 'Opportunity_slug', 'account_name', 'amount', 'rating', 'close_date']
     list_editable = ["close_date", "amount"]
     search_fields = ['opportubity_name', 'account_name']
 

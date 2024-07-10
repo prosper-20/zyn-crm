@@ -107,6 +107,11 @@ class Opportunity(models.Model):
     def __str__(self):
         return self.opportunity_name
     
+    def save(self, *args, **kwargs):
+        if not self.Opportunity_slug:
+            self.Opportunity_slug = slugify(self.opportunity_name)
+        super().save(*args, **kwargs)
+    
     class Meta:
         verbose_name_plural = "Opportunities"
     
