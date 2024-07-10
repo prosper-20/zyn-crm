@@ -1,10 +1,10 @@
 from django.shortcuts import render, get_object_or_404
 from rest_framework.views import APIView
-from .serializers import ContactSerializer, CreateCustomerAccountSerializer, ProductSerializer, UserSerializer, RetrieveLeadsSeializer, LeadSerializer, CustomUserRegistrationSerializer, VerifyOTPSerializer, LoginSerializer, PasswordChangeSerializer, TokenRefreshSerializer, InitiatePasswordResetSerializer, PasswordResetSerializer
+from .serializers import ContactSerializer, CreateOpportunitySerializer, CreateCustomerAccountSerializer, ProductSerializer, UserSerializer, RetrieveLeadsSeializer, LeadSerializer, CustomUserRegistrationSerializer, VerifyOTPSerializer, LoginSerializer, PasswordChangeSerializer, TokenRefreshSerializer, InitiatePasswordResetSerializer, PasswordResetSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework import status
-from .models import CustomUser, Contact, Product,  Lead, CustomToken, OTPToken, Contact
+from .models import CustomUser, Contact, Opportunity, Product,  Lead, CustomToken, OTPToken, Contact
 from datetime import timedelta
 from django.utils import timezone
 from django.contrib.auth import get_user_model
@@ -376,6 +376,16 @@ class CreateCustomerAccountView(APIView):
         serializer.save()
         return Response({"Success": "Customer Account Creation Successful",
                          "data": serializer.data}, status=status.HTTP_201_CREATED)
+    
+
+class CreateOpportunityView(APIView):
+    def post(self, request, format=None, *args, **kwargs):
+        serializer = CreateOpportunitySerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({"Success": "Opportunity Creation Successful",
+                         "data": serializer.data}, status=status.HTTP_201_CREATED)
+    
     
 
 

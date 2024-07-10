@@ -15,11 +15,11 @@ class ContactSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class OpportunitySerializer(serializers.ModelSerializer):
+class CreateOpportunitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Opportunity
         fields = ["opportunity_name", "account_name", "product_description", "rating", "owner"]
-        
+
 
 class CustomUserRegistrationSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(style={"input_type": "password"}, write_only=True)
