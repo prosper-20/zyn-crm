@@ -92,6 +92,7 @@ import uuid
 class Opportunity(models.Model):
     id= models.UUIDField(primary_key=True,default=uuid.uuid4)
     opportunity_name = models.CharField(max_length=100)
+    Opportunity_slug = models.SlugField()
     account_name = models.CharField(max_length=100)
     product_description = models.TextField()
     close_date = models.DateField(blank=True, null=True)
