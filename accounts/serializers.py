@@ -170,7 +170,7 @@ class VerifyOTPSerializer(serializers.Serializer):
 class LeadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lead
-        fields = ['id', 'first_name', 'last_name', 'lead_source', 'job_title', 'phone', 'office_email', 'personal_email', 'address', 'company', 'lead_rating', 'city', 'state', 'zip_code', 'country', 'company', 'lead_rating', 'description', 'lead_owner', 'company_id', 'created_by', 'created_date', 'modified_by', 'modified_date']
+        fields = ['id', 'first_name', 'last_name', 'lead_source', 'job_title', 'phone', 'office_email', 'personal_email', 'address', 'company', 'lead_rating', 'city', 'state', 'zip_code', 'country', 'description', 'lead_owner', 'company_id', 'created_by', 'created_date', 'modified_by', 'modified_date']
 
 
 
@@ -184,7 +184,7 @@ class RetrieveLeadsSeializer(serializers.ModelSerializer):
 
     class Meta:
         model = Lead
-        fields = ['id', 'lead_count', 'first_name', 'account_name', 'job_title', 'phone_number', 'email', 'alias']
+        fields = ['id', 'lead_count', 'first_name', 'account_name', 'job_title', 'phone_number', 'email', 'alias', 'company', 'lead_rating', 'lead_status']
 
     
     def get_leads_count(self, obj):
