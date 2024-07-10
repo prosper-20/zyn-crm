@@ -322,6 +322,64 @@ class RolePrivileges(models.Model):
 
     def __str__(self):
         return self.privilege_id
+    
+
+
+# class Case(models.Model):
+#     status = models.CharField()
+#     priorit
+
+ACCOUNT_CATEGORY = (
+    ("Customer", "Customer"),
+    ("Lead", "Lead")
+)
+
+INDUSTRIAL_SECTOR = (
+    ("Engineering", "Engineering"),
+
+)
+
+class City(models.Model):
+    name = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=200, unique=True)
+
+    def __str__(self):
+        return self.name
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug =slugify(self.name)
+        super.save(*args, **kwargs)
+
+class CustomerAccount(models.Model):
+    account_id = models.CharField(max_length=30, unique=True)
+    account_name = models.CharField(max_length=100, blank=True, null=True)
+    account_category = models.CharField(choices=ACCOUNT_CATEGORY, max_length=20)
+    parent_account = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
+    website = models.URLField(blank=True, null=True)
+    industrial_sector = models.CharField(choices=INDUSTRIAL_SECTOR, max_length=50)
+    account_type = models.ForeignKey(AccountType, on_delete=models.CASCADE, blank=True, null=True)
+    account_rating = models.IntegerField(blank=True, null=True)
+    phone_no = models.CharField(max_length=11, blank=True, null=True)
+    office_email = models.EmailField(blank=True, null=True)
+    fax = models.CharField(max_length=20, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    billing_address = models.CharField(max_length=255)
+    billing_city = models.ForeignKey(City, on_delete=models.CASCADE)
+    billing_state = models.CharField(max_length=100)
+    post_code = models.CharField(max_length=10)
+    country = models.CharField(max_length=100)
+    account_officer = models.ForeignKey(Lead, on_delete=models.CASCADE)
+    shipping_address = models.CharField(max_length=200)
+    shipping_city = models.ForeignKey(City, on_delete=models.CASCADE, related_name="user_shipping_city")
+    shipping_state = models.CharField(max_length=100)
+    post_code = models.CharField(max_length=10)
+    country = models.CharField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.account_name
+
 
 
 

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CustomUser, Contact, Lead, Product
+from .models import CustomUser, Contact, Lead, Product, CustomerAccount
 from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404
 
@@ -199,3 +199,10 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ["username", "email"]
+
+
+
+class CreateCustomerAccountSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomerAccount
+        fields = "__all__"
