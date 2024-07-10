@@ -1,11 +1,12 @@
 from django.urls import path
-from .views import RegistrationAPIView, CreateOpportunityView, DashboardView, RetrieveUserProfile, ProductView, SingleProductView, GetUpdateDeleteLeadsView, RetrieveLeadsView, CreateLeadView, ContactAPIView, VerifyOTPView, LoginAPIView, PasswordChangeView, HomePage, TokenResetView, LogoutAPIView, InitiatePasswordResetView, PasswordResetConfirmView, CreateCustomerAccountView
+from .views import RegistrationAPIView, CreateOpportunityView, DashboardView, RetrieveUserProfile, OpportunityView, ProductView, SingleProductView, GetUpdateDeleteLeadsView, RetrieveLeadsView, CreateLeadView, ContactAPIView, VerifyOTPView, LoginAPIView, PasswordChangeView, HomePage, TokenResetView, LogoutAPIView, InitiatePasswordResetView, PasswordResetConfirmView, CreateCustomerAccountView
 
 
 urlpatterns = [
     path("create/", RegistrationAPIView.as_view(), name="account-create"),
     path("create/accounts/", CreateCustomerAccountView.as_view(), name="create-account"),
     path("create/opportunity/", CreateOpportunityView.as_view(), name="create-opportunity"),
+    path("opportunity/<slug:opportunity_slug>/", OpportunityView.as_view(), name="opportunity"),
     path("lead/create/", CreateLeadView.as_view(), name="lead-create"),
     path("leads/", RetrieveLeadsView.as_view(), name="all-leads"),
     path("leads/<str:id>/", GetUpdateDeleteLeadsView.as_view(), name="single-lead"),

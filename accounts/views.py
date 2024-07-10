@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from rest_framework.views import APIView
-from .serializers import ContactSerializer, CreateOpportunitySerializer, CreateCustomerAccountSerializer, ProductSerializer, UserSerializer, RetrieveLeadsSeializer, LeadSerializer, CustomUserRegistrationSerializer, VerifyOTPSerializer, LoginSerializer, PasswordChangeSerializer, TokenRefreshSerializer, InitiatePasswordResetSerializer, PasswordResetSerializer
+from .serializers import ContactSerializer, OpportunitySerializer, CreateOpportunitySerializer, CreateCustomerAccountSerializer, ProductSerializer, UserSerializer, RetrieveLeadsSeializer, LeadSerializer, CustomUserRegistrationSerializer, VerifyOTPSerializer, LoginSerializer, PasswordChangeSerializer, TokenRefreshSerializer, InitiatePasswordResetSerializer, PasswordResetSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework import status
@@ -385,6 +385,15 @@ class CreateOpportunityView(APIView):
         serializer.save()
         return Response({"Success": "Opportunity Creation Successful",
                          "data": serializer.data}, status=status.HTTP_201_CREATED)
+    
+
+
+class OpportunityView(APIView):
+    def get(self, request, format=None, *args, **kwargs):
+        opportunity_slug = kwargs.get("opportunity_slug")
+        current_opportunity = get_object_or_404(Opportunity, Opportunity_slug=opportunity_slug)
+        serializer = OpportunitySerializer(current_opportunity)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     
     
 

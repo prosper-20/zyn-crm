@@ -21,6 +21,12 @@ class CreateOpportunitySerializer(serializers.ModelSerializer):
         fields = ["opportunity_name", "account_name", "product_description", "amount", "rating", "owner"]
 
 
+class OpportunitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Opportunity
+        fields = ["id", "opportunity_name", "Opportunity_slug", "account_name", "product_description", "amount", "rating", "owner"]
+
+
 class CustomUserRegistrationSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(style={"input_type": "password"}, write_only=True)
     class Meta:
