@@ -403,6 +403,16 @@ class CustomerAccount(models.Model):
             # Check if this ID already exists
             if not CustomerAccount.objects.filter(account_id=account_id).exists():
                 return account_id
+            
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    organization = models.CharField(max_length=100, blank=True, null=True)
+    department = models.CharField(max_length=100, blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.user.username} profile"
 
 
 

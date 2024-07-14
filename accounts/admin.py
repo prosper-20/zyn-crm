@@ -1,5 +1,12 @@
 from django.contrib import admin
-from .models import CustomUser, CustomerAccount, Lead, AccountType, Contact, Status, CustomToken, Opportunity, OTPToken
+from .models import CustomUser, CustomerAccount, Profile, Lead, AccountType, Contact, Status, CustomToken, Opportunity, OTPToken
+
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ['user', 'organization', 'department']
+    list_filter = ['organization']
+
+    
+admin.site.register(Profile, ProfileAdmin)
 
 @admin.register(CustomerAccount)
 class CustomerAccountAdmin(admin.ModelAdmin):
