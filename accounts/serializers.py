@@ -79,8 +79,10 @@ class PartnerRegistrationSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({"Error": "Both passwords must match"})
         
         user.set_password(password)
-        user.profile.organization = self.validated_data["organization"]
+        user.is_partner = True
         user.save()
+        user.profile.organization = self.validated_data["organization"]
+        user.profile.save()
         return user
     
 
