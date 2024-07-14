@@ -1,4 +1,4 @@
-from .models import CustomUser, OTPToken, Opportunity, Status
+from .models import CustomUser, OTPToken, Profile, Opportunity, Status
 from django.core.mail import send_mail
 from django.utils import timezone
 from django.dispatch import receiver
@@ -8,7 +8,14 @@ from django.contrib.auth.signals import user_logged_in
 import random
 import mailtrap as mt
 from decouple import config
+from django.contrib.auth import get_user_model
 
+User = get_user_model()
+
+@receiver(post_save, sender=User)
+def create_profile(sender, instance, created, **kwargs):
+     if created:
+        Profile.objects.create(user=instance)
 
 # @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 # def create_token(sender, instance, created, **kwargs):

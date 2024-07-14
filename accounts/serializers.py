@@ -56,7 +56,7 @@ class CustomUserRegistrationSerializer(serializers.ModelSerializer):
 
 class PartnerRegistrationSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(style={"input_type": "password"}, write_only=True)
-    organization = serializers.CharField(max_length=100)
+    organization = serializers.CharField(max_length=100, required=True)
 
     class Meta:
         model = CustomUser
