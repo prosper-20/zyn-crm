@@ -63,10 +63,10 @@ class PartnerRegistrationAPIView(APIView):
 
 class EmployeeRegistrationAPIView(APIView):
     def post(self, reuqest, fomrat=None):
-        serializer = PartnerRegistrationSerializer(data=reuqest.data)
+        serializer = EmployeeRegistrationSerializer(data=reuqest.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response({"Success": "Partner Account creation successful"}, status=status.HTTP_201_CREATED)
+        return Response({"Success": "Employee Account creation successful"}, status=status.HTTP_201_CREATED)
     
 
 

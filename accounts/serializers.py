@@ -90,10 +90,12 @@ class PartnerRegistrationSerializer(serializers.ModelSerializer):
 class EmployeeRegistrationSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(style={"input_type": "password"}, write_only=True)
     organization = serializers.CharField(max_length=100, required=True)
+    department = serializers.CharField(max_length=100, required=True)
+
 
     class Meta:
         model = CustomUser
-        fields = ["username", "email", "phone_number", "organization", "password", "password2"]
+        fields = ["username", "email", "phone_number", "organization", "department", "password", "password2"]
         extra_kwargs = {
             "password":  {"write_only": True}
         }
