@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from rest_framework.views import APIView
-from .serializers import ContactSerializer, PartnerRegistrationSerializer, OpportunitySerializer, CreateOpportunitySerializer, CreateCustomerAccountSerializer, ProductSerializer, UserSerializer, RetrieveLeadsSeializer, LeadSerializer, CustomUserRegistrationSerializer, VerifyOTPSerializer, LoginSerializer, PasswordChangeSerializer, TokenRefreshSerializer, InitiatePasswordResetSerializer, PasswordResetSerializer
+from .serializers import ContactSerializer, EmployeeRegistrationSerializer, PartnerRegistrationSerializer, OpportunitySerializer, CreateOpportunitySerializer, CreateCustomerAccountSerializer, ProductSerializer, UserSerializer, RetrieveLeadsSeializer, LeadSerializer, CustomUserRegistrationSerializer, VerifyOTPSerializer, LoginSerializer, PasswordChangeSerializer, TokenRefreshSerializer, InitiatePasswordResetSerializer, PasswordResetSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework import status
@@ -58,7 +58,15 @@ class PartnerRegistrationAPIView(APIView):
         serializer = PartnerRegistrationSerializer(data=reuqest.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response({"Success": "Account creation successful"}, status=status.HTTP_201_CREATED)
+        return Response({"Success": "Partner Account creation successful"}, status=status.HTTP_201_CREATED)
+    
+
+class EmployeeRegistrationAPIView(APIView):
+    def post(self, reuqest, fomrat=None):
+        serializer = PartnerRegistrationSerializer(data=reuqest.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({"Success": "Partner Account creation successful"}, status=status.HTTP_201_CREATED)
     
 
 
