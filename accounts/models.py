@@ -437,6 +437,7 @@ class Organization(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(blank=True, null=True)
     industry = models.ForeignKey(Industry, on_delete=models.CASCADE)
+    departments = models.ManyToManyField("Department")
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
 
@@ -458,6 +459,11 @@ class Department(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
     
 
 

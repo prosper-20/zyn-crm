@@ -6,6 +6,8 @@ class ProfileAdmin(admin.ModelAdmin):
     list_filter = ['organization']
 
 
+
+
 @admin.register(Department)
 class DepartmentAdmin(admin.ModelAdmin):
     list_display = ['name']

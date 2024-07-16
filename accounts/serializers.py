@@ -10,6 +10,11 @@ class DepratmentSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class OrganizationDepartmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Organization
+        fields = ["departments"]
+
 class ListOrganizationSerializer(serializers.ModelSerializer):
     industry_name = serializers.SerializerMethodField("get_industry_name")
     class Meta:

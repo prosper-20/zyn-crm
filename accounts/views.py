@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from rest_framework.views import APIView
-from .serializers import ContactSerializer, OrganizationSerializer, ListOrganizationSerializer, IndustrySerializer, EmployeeRegistrationSerializer, PartnerRegistrationSerializer, OpportunitySerializer, CreateOpportunitySerializer, CreateCustomerAccountSerializer, ProductSerializer, UserSerializer, RetrieveLeadsSeializer, LeadSerializer, CustomUserRegistrationSerializer, VerifyOTPSerializer, LoginSerializer, PasswordChangeSerializer, TokenRefreshSerializer, InitiatePasswordResetSerializer, PasswordResetSerializer
+from .serializers import ContactSerializer, OrganizationSerializer, OrganizationDepartmentSerializer, ListOrganizationSerializer, IndustrySerializer, EmployeeRegistrationSerializer, PartnerRegistrationSerializer, OpportunitySerializer, CreateOpportunitySerializer, CreateCustomerAccountSerializer, ProductSerializer, UserSerializer, RetrieveLeadsSeializer, LeadSerializer, CustomUserRegistrationSerializer, VerifyOTPSerializer, LoginSerializer, PasswordChangeSerializer, TokenRefreshSerializer, InitiatePasswordResetSerializer, PasswordResetSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework import status
@@ -430,6 +430,16 @@ class OrganizationView(ListCreateAPIView):
         if self.request.method == 'POST':
             return OrganizationSerializer
         return ListOrganizationSerializer
+    
+
+
+class OrganizationDepartmentView(APIView):
+    def get(self, request, format=None, *args, **kwargs):
+        organization_slug = kwargs.get("organization_slug")
+        current_organization = get_object_or_404(Organization, Organization_slug=organization_slug)
+        serializer = OrganizationDepartmentSerializer(current_organization)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
 
 
     
