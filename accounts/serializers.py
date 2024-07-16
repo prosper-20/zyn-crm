@@ -1,7 +1,13 @@
 from rest_framework import serializers
-from .models import CustomUser, Contact, Industry, Lead, Product, CustomerAccount, Opportunity
+from .models import CustomUser, Contact, Industry, Organization, Lead, Product, CustomerAccount, Opportunity
 from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404
+
+
+class OrganizationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Organization
+        fields = ["name", "industry"]
 
 # class DashBoardSerializer(serializers.ModelSerializer):
 #     class Meta:

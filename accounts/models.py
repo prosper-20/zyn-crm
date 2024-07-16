@@ -433,15 +433,17 @@ class Industry(models.Model):
 
 
 
-# class Organization(models.Model):
-#     name = models.CharField(max_length=255)
-#     slug = models.SlugField(blank=True, null=True)
-#     industry = models.ForeignKey(Industry, on_delete=models.CASCADE)
+class Organization(models.Model):
+    name = models.CharField(max_length=255)
+    slug = models.SlugField(blank=True, null=True)
+    industry = models.ForeignKey(Industry, on_delete=models.CASCADE)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_updated = models.DateTimeField(auto_now=True)
 
-#     def save(self, *args, **kwargs):
-#         if not self.slug:
-#             self.slug = slugify(self.name)
-#         super().save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
 
 
