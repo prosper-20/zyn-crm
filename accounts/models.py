@@ -415,6 +415,37 @@ class Profile(models.Model):
         return f"{self.user.username} profile"
 
 
+class Industry(models.Model):
+    industry_name = models.CharField(max_length=100, blank=True, null=True)
+    industry_slug = models.SlugField(blank=True, null=True)
+    industry_description = models.TextField(blank=True, null=True)
+
+    class Meta:
+        verbose_name_plural = "Industries"
+
+    def __str__(self):
+        return self.industry_name
+    
+    def save(self, *args, **kwargs):
+        if not self.industry_slug:
+            self.industry_slug = slugify(self.industry_name)
+        super().save(*args, **kwargs)
+
+
+
+# class Organization(models.Model):
+#     name = models.CharField(max_length=255)
+#     slug = models.SlugField(blank=True, null=True)
+#     industry = models.ForeignKey(Industry, on_delete=models.CASCADE)
+
+#     def save(self, *args, **kwargs):
+#         if not self.slug:
+#             self.slug = slugify(self.name)
+#         super().save(*args, **kwargs)
+
+
+
+
 
 
     
