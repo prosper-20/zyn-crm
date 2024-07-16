@@ -425,7 +425,11 @@ class IndustryView(ListCreateAPIView):
 
 class OrganizationView(ListCreateAPIView):
     queryset = Organization.objects.all()
-    serializer_class = ListOrganizationSerializer
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return OrganizationSerializer
+        return ListOrganizationSerializer
 
 
     
