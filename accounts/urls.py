@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import RegistrationAPIView, PartnerRegistrationAPIView, EmployeeRegistrationAPIView, CreateOpportunityView, DashboardView, RetrieveUserProfile, OpportunityView, ProductView, SingleProductView, GetUpdateDeleteLeadsView, RetrieveLeadsView, CreateLeadView, ContactAPIView, VerifyOTPView, LoginAPIView, PasswordChangeView, HomePage, TokenResetView, LogoutAPIView, InitiatePasswordResetView, PasswordResetConfirmView, CreateCustomerAccountView
+from .views import RegistrationAPIView, IndustryView, PartnerRegistrationAPIView, EmployeeRegistrationAPIView, CreateOpportunityView, DashboardView, RetrieveUserProfile, OpportunityView, ProductView, SingleProductView, GetUpdateDeleteLeadsView, RetrieveLeadsView, CreateLeadView, ContactAPIView, VerifyOTPView, LoginAPIView, PasswordChangeView, HomePage, TokenResetView, LogoutAPIView, InitiatePasswordResetView, PasswordResetConfirmView, CreateCustomerAccountView
 
 
 urlpatterns = [
@@ -8,6 +8,7 @@ urlpatterns = [
     path("create/employee/", EmployeeRegistrationAPIView.as_view(), name="employee-create"),
     path("create/accounts/", CreateCustomerAccountView.as_view(), name="create-account"),
     path("create/opportunity/", CreateOpportunityView.as_view(), name="create-opportunity"),
+    path("industry/", IndustryView.as_view(), name="industry"),
     path("opportunity/<slug:opportunity_slug>/", OpportunityView.as_view(), name="opportunity"),
     path("lead/create/", CreateLeadView.as_view(), name="lead-create"),
     path("leads/", RetrieveLeadsView.as_view(), name="all-leads"),

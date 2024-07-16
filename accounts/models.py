@@ -416,7 +416,7 @@ class Profile(models.Model):
 
 
 class Industry(models.Model):
-    industry_name = models.CharField(max_length=100, blank=True, null=True)
+    industry_name = models.CharField(max_length=100)
     industry_slug = models.SlugField(blank=True, null=True)
     industry_description = models.TextField(blank=True, null=True)
 

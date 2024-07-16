@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CustomUser, Contact, Lead, Product, CustomerAccount, Opportunity
+from .models import CustomUser, Contact, Industry, Lead, Product, CustomerAccount, Opportunity
 from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404
 
@@ -13,6 +13,12 @@ class ContactSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contact
         fields = "__all__"
+
+
+class IndustrySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Industry
+        fields = ["id", "industry_name", "industry_slug", "industry_description"]
 
 
 class CreateOpportunitySerializer(serializers.ModelSerializer):
