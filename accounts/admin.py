@@ -1,10 +1,14 @@
 from django.contrib import admin
-from .models import CustomUser, Industry, Organization, CustomerAccount, Profile, Lead, AccountType, Contact, Status, CustomToken, Opportunity, OTPToken
+from .models import CustomUser, Industry, Department, Organization, CustomerAccount, Profile, Lead, AccountType, Contact, Status, CustomToken, Opportunity, OTPToken
 
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ['user', 'organization', 'department']
     list_filter = ['organization']
 
+
+@admin.register(Department)
+class DepartmentAdmin(admin.ModelAdmin):
+    list_display = ['name']
 
 @admin.register(Organization)
 class OrganizationAdmin(admin.ModelAdmin):

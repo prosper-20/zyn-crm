@@ -1,7 +1,13 @@
 from rest_framework import serializers
-from .models import CustomUser, Contact, Industry, Organization, Lead, Product, CustomerAccount, Opportunity
+from .models import CustomUser, Contact, Industry, Department, Organization, Lead, Product, CustomerAccount, Opportunity
 from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404
+
+
+class DepratmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Department
+        fields = '__all__'
 
 
 class ListOrganizationSerializer(serializers.ModelSerializer):

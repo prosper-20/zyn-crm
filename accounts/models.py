@@ -445,10 +445,12 @@ class Organization(models.Model):
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
+    def __str__(self):
+        return self.name
+
 
 
 class Department(models.Model):
-    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     slug = models.SlugField(blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
@@ -457,7 +459,7 @@ class Department(models.Model):
     def __str__(self):
         return self.name
     
-    
+
 
 
 
