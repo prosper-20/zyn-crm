@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from rest_framework.views import APIView
-from .serializers import ContactSerializer, OrganizationSerializer, IndustrySerializer, EmployeeRegistrationSerializer, PartnerRegistrationSerializer, OpportunitySerializer, CreateOpportunitySerializer, CreateCustomerAccountSerializer, ProductSerializer, UserSerializer, RetrieveLeadsSeializer, LeadSerializer, CustomUserRegistrationSerializer, VerifyOTPSerializer, LoginSerializer, PasswordChangeSerializer, TokenRefreshSerializer, InitiatePasswordResetSerializer, PasswordResetSerializer
+from .serializers import ContactSerializer, OrganizationSerializer, ListOrganizationSerializer, IndustrySerializer, EmployeeRegistrationSerializer, PartnerRegistrationSerializer, OpportunitySerializer, CreateOpportunitySerializer, CreateCustomerAccountSerializer, ProductSerializer, UserSerializer, RetrieveLeadsSeializer, LeadSerializer, CustomUserRegistrationSerializer, VerifyOTPSerializer, LoginSerializer, PasswordChangeSerializer, TokenRefreshSerializer, InitiatePasswordResetSerializer, PasswordResetSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework import status
@@ -425,7 +425,7 @@ class IndustryView(ListCreateAPIView):
 
 class OrganizationView(ListCreateAPIView):
     queryset = Organization.objects.all()
-    serializer_class = OrganizationSerializer
+    serializer_class = ListOrganizationSerializer
 
 
     
