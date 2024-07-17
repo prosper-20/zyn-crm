@@ -436,7 +436,7 @@ class OrganizationView(ListCreateAPIView):
 class OrganizationDepartmentView(APIView):
     def get(self, request, format=None, *args, **kwargs):
         organization_slug = kwargs.get("organization_slug")
-        current_organization = get_object_or_404(Organization, Organization_slug=organization_slug)
+        current_organization = get_object_or_404(Organization, slug=organization_slug)
         serializer = OrganizationDepartmentSerializer(current_organization)
         return Response(serializer.data, status=status.HTTP_200_OK)
     

@@ -11,18 +11,25 @@ class DepratmentSerializer(serializers.ModelSerializer):
 
 
 class OrganizationDepartmentSerializer(serializers.ModelSerializer):
+    departments = DepratmentSerializer(many=True, read_only=True)
+
     class Meta:
         model = Organization
         fields = ["departments"]
 
+
 class ListOrganizationSerializer(serializers.ModelSerializer):
     industry_name = serializers.SerializerMethodField("get_industry_name")
+    industry_slug = serializers.SerializerMethodField("get_industry_slug")
     class Meta:
         model = Organization
-        fields = ["name", "industry", "industry_name"]
+        fields = ["name", "industry", "industry_name", "industry_slug"]
 
     def get_industry_name(self, obj):
         return obj.industry.industry_name
+    
+    def get_industry_slug(self, obj):
+        return obj.industry.industry_slug
 
 class OrganizationSerializer(serializers.ModelSerializer):
     class Meta:
