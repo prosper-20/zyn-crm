@@ -267,8 +267,15 @@ class VerifyOTPView(APIView):
         serializer = VerifyOTPSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         input_otp = serializer.validated_data.get("otp_token")
-        user = get_object_or_404(OTPToken, otp_code=input_otp).user
-        if OTPToken.objects.filter(user=user).last().otp_code == input_otp:
+
+        otp_tokens = OTPToken.objects.filter(otp_code=input_otp)
+        
+        if otp_tokens.exists():
+            otp_token = otp_tokens.latest('otp_created_at')  # Get the most recent OTP token
+            user = otp_token.user
+        # user = get_object_or_404(OTPToken, otp_code=input_otp).user
+        if otp_token.otp_code == input_otp:
+        # if OTPToken.objects.filter(user=user).last().otp_code == input_otp:
             refresh = RefreshToken.for_user(user)
             access_token = AccessToken.for_user(user)
             custom_token, _ = CustomToken.objects.get_or_create(user=user)
