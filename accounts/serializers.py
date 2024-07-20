@@ -23,7 +23,7 @@ class ListOrganizationSerializer(serializers.ModelSerializer):
     industry_slug = serializers.SerializerMethodField("get_industry_slug")
     class Meta:
         model = Organization
-        fields = ["name", "industry", "industry_name", "industry_slug"]
+        fields = ["name",  "slug", "industry", "industry_name", "industry_slug"]
 
     def get_industry_name(self, obj):
         return obj.industry.industry_name
