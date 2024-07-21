@@ -9,6 +9,14 @@ import random
 import mailtrap as mt
 from decouple import config
 from django.contrib.auth import get_user_model
+import os
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+from django.template.loader import render_to_string
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
+from django.utils.html import strip_tags
+
 
 User = get_user_model()
 
@@ -41,35 +49,94 @@ def create_profile(sender, instance, created, **kwargs):
 
 
 
+# @receiver(user_logged_in)
+# def send_otp_on_login(sender, user, request, **kwargs):
+#     # Generate OTP
+#     # otp = ''.join(random.choices('0123456789', k=6))  # Generate a 6-digit OTP
+#     # print("userrrr", user)
+
+#     otp = OTPToken.objects.create(user=user, otp_expires_at=timezone.now() + timezone.timedelta(minutes=5))
+#     message = f""" 
+#                     Hi {user}, here is your OTP {otp.otp_code}
+#             It expires in 5 minutes, use the url below to redirect back to the website
+#             http://127.0.0.1:8000/accounts/verify/otp/"""
+
+#     # Send OTP to user's email
+#     # subject = 'Login OTP'
+#     # message = f'Your OTP for login is: {otp}'
+#     # from_email = settings.EMAIL_HOST_USER
+#     # to_email = user.email
+#     # send_mail(subject, message, from_email, [to_email])
+
+#     mail = mt.Mail(
+#             sender=mt.Address(email="mailtrap@demomailtrap.com", name="Mailtrap Test"),
+#             to=[mt.Address(email=user.email)],
+#             subject="Login OTP",
+#             text=message,
+#             category="Integration Test",
+#         )
+
+#     client = mt.MailtrapClient(token=config("MAILTRAP_TOKEN"))
+#     client.send(mail)
+
+
+# message = render_to_string('accounts/email_confirmation.html', {
+# #             'user': instance,
+# #             'domain': 'localhost:8000',
+# #             'uid' : uid,
+# #             'token': token
+# #         }) 
+           
+# #             plain_message = strip_tags(message)
+
+
+# @receiver(user_logged_in)
+# def send_otp_on_login(sender, user, request, **kwargs):
+#     otp = OTPToken.objects.create(user=user, otp_expires_at=timezone.now() + timezone.timedelta(minutes=5))
+#     email_message = f""" 
+#                     Hi {user}, here is your OTP {otp.otp_code}
+#             It expires in 5 minutes, use the url below to redirect back to the website
+#             http://127.0.0.1:8000/accounts/verify/otp/"""
+#     message = Mail(
+#     from_email=config('FROM_EMAIL'),
+#     to_emails=[user.email],
+#     subject='Login OTP',
+#     html_content = f"""
+#     <strong>Hi {user.username},</strong><br><br>
+#     Here is your OTP: <strong>{otp.otp_code}</strong><br>
+#     It expires in 5 minutes.<br><br>
+#     Use the URL below to redirect back to the website:<br>
+#     <a href="http://127.0.0.1:8000/accounts/verify/otp/">http://127.0.0.1:8000/accounts/verify/otp/</a>
+#     """)
+
+#     try:
+#         sg = SendGridAPIClient(config('ZEEMY_SENDGRID_API_KEY'))
+#         response = sg.send(message)
+#         print(response.status_code)
+#         print(response.body)
+#         print(response.headers)
+#     except Exception as e:
+#         print(e.message)
+
+
 @receiver(user_logged_in)
 def send_otp_on_login(sender, user, request, **kwargs):
-    # Generate OTP
-    # otp = ''.join(random.choices('0123456789', k=6))  # Generate a 6-digit OTP
-    # print("userrrr", user)
-
     otp = OTPToken.objects.create(user=user, otp_expires_at=timezone.now() + timezone.timedelta(minutes=5))
-    message = f""" 
-                    Hi {user}, here is your OTP {otp.otp_code}
-            It expires in 5 minutes, use the url below to redirect back to the website
-            http://127.0.0.1:8000/accounts/verify/otp/"""
+    
 
-    # Send OTP to user's email
-    # subject = 'Login OTP'
-    # message = f'Your OTP for login is: {otp}'
-    # from_email = settings.EMAIL_HOST_USER
-    # to_email = user.email
-    # send_mail(subject, message, from_email, [to_email])
+    try:
+        email = user.email
+        subject = "Login OTP"
+        message = render_to_string("accounts/otp_login.html", {"username": user.username, "otp_code": otp.otp_code})
+        plain_message = strip_tags(message)
+        from_email = config('FROM_EMAIL') 
+        to = email
+        send_mail(subject, plain_message, from_email, [to], html_message=message)
+    except Exception as e:
+        raise e
+         
 
-    mail = mt.Mail(
-            sender=mt.Address(email="mailtrap@demomailtrap.com", name="Mailtrap Test"),
-            to=[mt.Address(email=user.email)],
-            subject="Login OTP",
-            text=message,
-            category="Integration Test",
-        )
-
-    client = mt.MailtrapClient(token=config("MAILTRAP_TOKEN"))
-    client.send(mail)
+     
 
 
 @receiver(user_logged_in)

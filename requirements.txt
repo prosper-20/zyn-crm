@@ -21,12 +21,15 @@ psycopg2==2.9.9
 pycparser==2.22
 PyJWT==2.8.0
 python-decouple==3.8
+python-http-client==3.3.7
 python3-openid==3.2.0
 requests==2.32.3
 requests-oauthlib==2.0.0
+sendgrid==6.11.0
 social-auth-app-django==5.4.1
 social-auth-core==4.5.4
 sqlparse==0.5.0
+starkbank-ecdsa==2.2.0
 typing_extensions==4.12.1
 tzdata==2024.1
 urllib3==2.2.1
