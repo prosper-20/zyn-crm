@@ -55,9 +55,9 @@ class StatusAdmin(admin.ModelAdmin):
 
 @admin.register(CustomUser)
 class CustomUserAdmin(admin.ModelAdmin):
-    list_display = ["username", "email", "is_active"]
-    list_editable = ["is_active"]
-    search_fields = ["username", "email"]
+    list_display = ["username", "email", "is_active", "is_employee", "is_partner", "is_verified"]
+    list_editable = ["is_active", "is_verified"]
+    search_fields = ["username", "email", "phone_number"]
 
 
 

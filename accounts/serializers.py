@@ -131,6 +131,27 @@ class EmployeeRegistrationSerializer(serializers.ModelSerializer):
     organization = serializers.CharField(max_length=100, required=True)
     department = serializers.CharField(max_length=100, required=True)
 
+    def validate_organization(self, value):
+        try:
+            # Check if an organization with the given slug exists
+            # Organization.objects.get(slug=value)
+            current_organization = get_object_or_404(Organization, name=value)
+        except Organization.DoesNotExist:
+            raise serializers.ValidationError("Organization with this slug does not exist.")
+        return value
+    
+    def validate_department(self, value):
+        organization_name = self.initial_data.get('organization')
+        try:
+            organization = Organization.objects.get(name=organization_name)
+            print(organization.departments)
+            # Check if the department exists within the organization
+            if not organization.departments.filter(slug=value).exists():
+                raise serializers.ValidationError("Department with this slug does not exist in the specified organization.")
+        except Organization.DoesNotExist:
+            raise serializers.ValidationError("Cannot validate department because organization does not exist.")
+        return value
+
 
     class Meta:
         model = CustomUser
