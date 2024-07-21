@@ -146,7 +146,7 @@ class EmployeeRegistrationSerializer(serializers.ModelSerializer):
             organization = Organization.objects.get(name=organization_name)
             print(organization.departments)
             # Check if the department exists within the organization
-            if not organization.departments.filter(slug=value).exists():
+            if not organization.departments.filter(name=value).exists():
                 raise serializers.ValidationError("Department with this slug does not exist in the specified organization.")
         except Organization.DoesNotExist:
             raise serializers.ValidationError("Cannot validate department because organization does not exist.")
